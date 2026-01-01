@@ -14,12 +14,12 @@ interface LoaderScreenProps {
 export function LoaderScreen({ onComplete }: LoaderScreenProps) {
   const [textIndex, setTextIndex] = useState(0);
   const [progress, setProgress] = useState(0);
-  
+
   useEffect(() => {
     const textInterval = setInterval(() => {
       setTextIndex(prev => (prev + 1) % LOADER_TEXTS.length);
     }, 900);
-    
+
     const progressInterval = setInterval(() => {
       setProgress(prev => {
         if (prev >= 100) {
@@ -29,18 +29,18 @@ export function LoaderScreen({ onComplete }: LoaderScreenProps) {
         return prev + 2;
       });
     }, 50);
-    
+
     const timeout = setTimeout(() => {
       onComplete();
     }, 2800);
-    
+
     return () => {
       clearInterval(textInterval);
       clearInterval(progressInterval);
       clearTimeout(timeout);
     };
   }, [onComplete]);
-  
+
   return (
     <div className="fixed inset-0 bg-background flex flex-col items-center justify-center px-8">
       <motion.div
@@ -48,27 +48,17 @@ export function LoaderScreen({ onComplete }: LoaderScreenProps) {
         animate={{ scale: 1, opacity: 1 }}
         className="w-full max-w-xs"
       >
-        {/* Animated Icon */}
+        {/* Animated Logo */}
         <div className="flex justify-center mb-8">
-          <div className="relative w-20 h-20">
-            <motion.div
-              animate={{ rotate: 360 }}
-              transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
-              className="absolute inset-0 rounded-full border-2 border-primary/20"
-            />
-            <motion.div
-              animate={{ rotate: -360 }}
-              transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
-              className="absolute inset-2 rounded-full border-2 border-t-primary border-r-transparent border-b-transparent border-l-transparent"
-            />
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center">
-                <span className="text-primary font-bold text-lg">₹</span>
-              </div>
-            </div>
-          </div>
+          <motion.div
+            animate={{ scale: [1, 1.05, 1] }}
+            transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+            className="w-20 h-20 rounded-2xl bg-primary flex items-center justify-center"
+          >
+            <span className="text-primary-foreground font-bold text-3xl">M</span>
+          </motion.div>
         </div>
-        
+
         {/* Cycling Text */}
         <div className="h-8 relative overflow-hidden mb-6">
           <AnimatePresence mode="wait">
@@ -84,25 +74,29 @@ export function LoaderScreen({ onComplete }: LoaderScreenProps) {
             </motion.p>
           </AnimatePresence>
         </div>
-        
+
         {/* Progress Bar */}
-        <div className="w-full h-1.5 bg-secondary rounded-full overflow-hidden">
+        <div className="w-full h-1.5 bg-muted rounded-full overflow-hidden">
           <motion.div
             className="h-full rounded-full"
             style={{
-              background: 'linear-gradient(90deg, hsl(var(--primary)), hsl(var(--accent)))',
+              background: 'var(--gradient-primary)',
               width: `${progress}%`,
             }}
             transition={{ duration: 0.1 }}
           />
         </div>
-        
+
         {/* Dots */}
         <div className="flex justify-center gap-2 mt-8">
           {[0, 1, 2].map(i => (
             <div key={i} className="loader-dot" style={{ animationDelay: `${i * 0.2}s` }} />
           ))}
         </div>
+
+        <p className="text-xs text-muted-foreground text-center mt-6">
+          Based on illustrative patterns and your inputs
+        </p>
       </motion.div>
     </div>
   );
