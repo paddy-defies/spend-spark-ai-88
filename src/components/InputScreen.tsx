@@ -4,12 +4,12 @@ import { ArrowRight, ArrowLeft, Sparkles } from 'lucide-react';
 import { ProgressIndicator } from './ProgressIndicator';
 import { SelectOption } from './SelectOption';
 import { BrandSelector } from './BrandSelector';
-import { 
-  AGE_RANGES, 
-  GENDERS, 
-  MARITAL_STATUS, 
-  INCOME_RANGES, 
-  SPENDING_STYLES 
+import {
+  AGE_RANGES,
+  GENDERS,
+  MARITAL_STATUS,
+  INCOME_RANGES,
+  SPENDING_STYLES
 } from '@/lib/constants';
 import { UserInputs } from '@/lib/types';
 import { cn } from '@/lib/utils';
@@ -29,7 +29,7 @@ export function InputScreen({ onComplete, initialInputs }: InputScreenProps) {
   const [income, setIncome] = useState(initialInputs?.income || '');
   const [spendingStyle, setSpendingStyle] = useState(initialInputs?.spendingStyle || '');
   const [favoriteBrands, setFavoriteBrands] = useState<string[]>(initialInputs?.favoriteBrands || []);
-  
+
   const canProceed = () => {
     switch (step) {
       case 1: return !!age;
@@ -40,7 +40,7 @@ export function InputScreen({ onComplete, initialInputs }: InputScreenProps) {
       default: return false;
     }
   };
-  
+
   const handleNext = () => {
     if (step < TOTAL_STEPS) {
       setStep(step + 1);
@@ -55,28 +55,36 @@ export function InputScreen({ onComplete, initialInputs }: InputScreenProps) {
       });
     }
   };
-  
+
   const handleBack = () => {
     if (step > 1) {
       setStep(step - 1);
     }
   };
-  
+
   const toggleBrand = (brandId: string) => {
-    setFavoriteBrands(prev => 
-      prev.includes(brandId) 
+    setFavoriteBrands(prev =>
+      prev.includes(brandId)
         ? prev.filter(b => b !== brandId)
         : [...prev, brandId]
     );
   };
-  
+
   return (
     <div className="min-h-screen bg-background flex flex-col">
       {/* Header */}
       <div className="p-4 pt-6">
         <div className="flex items-center gap-2 mb-2">
-          <Sparkles className="w-5 h-5 text-primary" />
-          <span className="text-sm font-medium text-primary">AI Spend Analyzer</span>
+          <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
+            <span className="text-primary-foreground font-bold text-sm">M</span>
+          </div>
+          <span className="font-display font-semibold text-foreground">multipl</span>
+        </div>
+        <div className="flex items-center gap-2 mt-4 mb-1">
+          <Sparkles className="w-4 h-4 text-muted-foreground" />
+          <span className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
+            AI Spend Analyzer
+          </span>
         </div>
         <h1 className="text-2xl font-display font-bold text-foreground">
           Let's understand your spends
@@ -85,11 +93,11 @@ export function InputScreen({ onComplete, initialInputs }: InputScreenProps) {
           Answer a few questions to get your personalized analysis
         </p>
       </div>
-      
+
       <ProgressIndicator currentStep={step} totalSteps={TOTAL_STEPS} />
-      
+
       {/* Step Content */}
-      <div className="flex-1 px-4 pb-24 overflow-y-auto">
+      <div className="flex-1 px-4 pb-28 overflow-y-auto">
         <AnimatePresence mode="wait">
           {step === 1 && (
             <StepContainer key="step1">
@@ -109,13 +117,13 @@ export function InputScreen({ onComplete, initialInputs }: InputScreenProps) {
               </div>
             </StepContainer>
           )}
-          
+
           {step === 2 && (
             <StepContainer key="step2">
               <h2 className="text-lg font-display font-semibold text-foreground mb-4">
                 Gender & Marital Status
               </h2>
-              
+
               <p className="text-sm text-muted-foreground mb-3">Gender</p>
               <div className="grid grid-cols-2 gap-3 mb-6">
                 {GENDERS.map(opt => (
@@ -128,7 +136,7 @@ export function InputScreen({ onComplete, initialInputs }: InputScreenProps) {
                   />
                 ))}
               </div>
-              
+
               <p className="text-sm text-muted-foreground mb-3">Marital Status</p>
               <div className="grid grid-cols-2 gap-3">
                 {MARITAL_STATUS.map(opt => (
@@ -143,7 +151,7 @@ export function InputScreen({ onComplete, initialInputs }: InputScreenProps) {
               </div>
             </StepContainer>
           )}
-          
+
           {step === 3 && (
             <StepContainer key="step3">
               <h2 className="text-lg font-display font-semibold text-foreground mb-4">
@@ -162,7 +170,7 @@ export function InputScreen({ onComplete, initialInputs }: InputScreenProps) {
               </div>
             </StepContainer>
           )}
-          
+
           {step === 4 && (
             <StepContainer key="step4">
               <h2 className="text-lg font-display font-semibold text-foreground mb-4">
@@ -181,7 +189,7 @@ export function InputScreen({ onComplete, initialInputs }: InputScreenProps) {
               </div>
             </StepContainer>
           )}
-          
+
           {step === 5 && (
             <StepContainer key="step5">
               <h2 className="text-lg font-display font-semibold text-foreground mb-4">
@@ -195,19 +203,19 @@ export function InputScreen({ onComplete, initialInputs }: InputScreenProps) {
           )}
         </AnimatePresence>
       </div>
-      
+
       {/* Bottom Navigation */}
-      <div className="fixed bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-background via-background to-transparent pt-8">
+      <div className="fixed bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-background via-background to-transparent pt-8 safe-area-bottom">
         <div className="flex gap-3 max-w-md mx-auto">
           {step > 1 && (
             <button
               onClick={handleBack}
-              className="flex items-center justify-center w-14 h-14 rounded-xl border border-border bg-secondary/50 text-foreground"
+              className="flex items-center justify-center w-14 h-14 rounded-full border border-border bg-card text-foreground"
             >
               <ArrowLeft className="w-5 h-5" />
             </button>
           )}
-          
+
           <button
             onClick={handleNext}
             disabled={!canProceed()}

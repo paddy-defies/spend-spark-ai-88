@@ -16,14 +16,14 @@ export function AddSpendSheet({ isOpen, onClose, onAdd }: AddSpendSheetProps) {
   const [brandId, setBrandId] = useState('');
   const [amount, setAmount] = useState('');
   const [frequency, setFrequency] = useState<SpendRow['frequency']>('monthly');
-  
+
   const categories = Object.keys(BRAND_CATEGORIES);
   const brands = category ? BRAND_CATEGORIES[category as keyof typeof BRAND_CATEGORIES] : [];
   const selectedBrand = brands.find(b => b.id === brandId);
-  
+
   const handleSubmit = () => {
     if (!category || !brandId || !amount) return;
-    
+
     onAdd({
       category,
       brandId,
@@ -31,7 +31,7 @@ export function AddSpendSheet({ isOpen, onClose, onAdd }: AddSpendSheetProps) {
       amount: parseInt(amount) || 0,
       frequency,
     });
-    
+
     // Reset
     setCategory('');
     setBrandId('');
@@ -39,7 +39,7 @@ export function AddSpendSheet({ isOpen, onClose, onAdd }: AddSpendSheetProps) {
     setFrequency('monthly');
     onClose();
   };
-  
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -48,16 +48,16 @@ export function AddSpendSheet({ isOpen, onClose, onAdd }: AddSpendSheetProps) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-background/80 backdrop-blur-sm z-40"
+            className="fixed inset-0 bg-foreground/20 backdrop-blur-sm z-40"
             onClick={onClose}
           />
-          
+
           <motion.div
             initial={{ y: '100%' }}
             animate={{ y: 0 }}
             exit={{ y: '100%' }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className="bottom-sheet z-50"
+            className="bottom-sheet z-50 safe-area-bottom"
           >
             <div className="flex items-center justify-between mb-6">
               <h3 className="font-display text-lg font-semibold text-foreground">
@@ -67,7 +67,7 @@ export function AddSpendSheet({ isOpen, onClose, onAdd }: AddSpendSheetProps) {
                 <X className="w-5 h-5" />
               </button>
             </div>
-            
+
             <div className="space-y-4">
               {/* Category */}
               <div>
@@ -78,7 +78,7 @@ export function AddSpendSheet({ isOpen, onClose, onAdd }: AddSpendSheetProps) {
                       key={cat}
                       onClick={() => { setCategory(cat); setBrandId(''); }}
                       className={cn(
-                        'select-option text-sm py-2',
+                        'select-option text-sm py-2.5',
                         category === cat && 'active'
                       )}
                     >
@@ -87,7 +87,7 @@ export function AddSpendSheet({ isOpen, onClose, onAdd }: AddSpendSheetProps) {
                   ))}
                 </div>
               </div>
-              
+
               {/* Brand */}
               {category && (
                 <motion.div
@@ -108,13 +108,13 @@ export function AddSpendSheet({ isOpen, onClose, onAdd }: AddSpendSheetProps) {
                         >
                           {brand.initial}
                         </div>
-                        <span className="text-xs text-center leading-tight">{brand.name}</span>
+                        <span className="text-xs text-center leading-tight text-foreground">{brand.name}</span>
                       </button>
                     ))}
                   </div>
                 </motion.div>
               )}
-              
+
               {/* Amount & Frequency */}
               {brandId && (
                 <motion.div
@@ -135,7 +135,7 @@ export function AddSpendSheet({ isOpen, onClose, onAdd }: AddSpendSheetProps) {
                       />
                     </div>
                   </div>
-                  
+
                   <div>
                     <label className="block text-sm text-muted-foreground mb-2">Frequency</label>
                     <select
@@ -152,7 +152,7 @@ export function AddSpendSheet({ isOpen, onClose, onAdd }: AddSpendSheetProps) {
                   </div>
                 </motion.div>
               )}
-              
+
               {/* Submit */}
               <button
                 onClick={handleSubmit}

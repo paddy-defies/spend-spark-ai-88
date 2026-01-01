@@ -18,21 +18,21 @@ interface ResultsScreenProps {
 export function ResultsScreen({ rows, inputs, onUpdateRows, onStartOver }: ResultsScreenProps) {
   const [showAddSheet, setShowAddSheet] = useState(false);
   const [showWhySheet, setShowWhySheet] = useState(false);
-  
+
   const totals = useMemo(() => calculateTotals(rows), [rows]);
-  
+
   const handleUpdateRow = (id: string, updates: Partial<SpendRow>) => {
-    const updated = rows.map(row => 
+    const updated = rows.map(row =>
       row.id === id ? { ...row, ...updates } : row
     );
     onUpdateRows(updated);
   };
-  
+
   const handleDeleteRow = (id: string) => {
     const updated = rows.filter(row => row.id !== id);
     onUpdateRows(updated);
   };
-  
+
   const handleAddRow = (newRow: Omit<SpendRow, 'id'>) => {
     const row: SpendRow = {
       ...newRow,
@@ -40,21 +40,18 @@ export function ResultsScreen({ rows, inputs, onUpdateRows, onStartOver }: Resul
     };
     onUpdateRows([...rows, row]);
   };
-  
+
   return (
-    <div className="min-h-screen bg-background pb-32">
-      {/* Header */}
-      <div className="p-4 pt-6 flex items-start justify-between">
-        <div>
-          <div className="flex items-center gap-2 mb-2">
-            <Sparkles className="w-5 h-5 text-primary" />
-            <span className="text-sm font-medium text-primary">AI Spend Analysis</span>
+    <div className="min-h-screen bg-background pb-36">
+      {/* App Bar */}
+      <div className="p-4 pt-6 flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
+            <span className="text-primary-foreground font-bold text-sm">M</span>
           </div>
-          <h1 className="text-2xl font-display font-bold text-foreground">
-            Your Spend Analysis
-          </h1>
+          <span className="font-display font-semibold text-foreground">multipl</span>
         </div>
-        
+
         <button
           onClick={onStartOver}
           className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
@@ -63,52 +60,66 @@ export function ResultsScreen({ rows, inputs, onUpdateRows, onStartOver }: Resul
           Start over
         </button>
       </div>
-      
+
+      {/* Page Title */}
+      <div className="px-4 pb-4">
+        <div className="flex items-center gap-2 mb-1">
+          <Sparkles className="w-4 h-4 text-muted-foreground" />
+          <span className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
+            AI Spend Analysis
+          </span>
+        </div>
+        <h1 className="text-2xl font-display font-bold text-foreground">
+          Your Spend Analysis
+        </h1>
+      </div>
+
       {/* Content */}
       <div className="px-4 space-y-4">
         <SummaryCard totals={totals} />
-        
+
+        {/* Disclaimer */}
+        <p className="text-xs text-center text-muted-foreground px-4">
+          Illustrative estimates. Returns are market-linked and not guaranteed.
+          Actual yields/discounts may vary.
+        </p>
+
         <SpendTable
           rows={rows}
           onUpdateRow={handleUpdateRow}
           onDeleteRow={handleDeleteRow}
           onAddRow={() => setShowAddSheet(true)}
         />
-        
+
         {/* Why these spends link */}
         <button
           onClick={() => setShowWhySheet(true)}
-          className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors mx-auto"
+          className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors mx-auto py-2"
         >
           <HelpCircle className="w-4 h-4" />
           Why these spends?
         </button>
       </div>
-      
+
       {/* Bottom CTA */}
-      <div className="fixed bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-background via-background to-transparent pt-8">
-        <div className="max-w-md mx-auto space-y-3">
+      <div className="fixed bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-background via-background to-transparent pt-8 safe-area-bottom">
+        <div className="max-w-md mx-auto">
           <motion.button
             whileTap={{ scale: 0.98 }}
-            className="btn-primary w-full glow-primary"
+            className="btn-primary w-full text-base"
           >
             Activate my Spending Account
           </motion.button>
-          
-          <p className="text-xs text-center text-muted-foreground/70 px-4">
-            Illustrative estimates. Returns are market-linked and not guaranteed. 
-            Actual yields/discounts may vary.
-          </p>
         </div>
       </div>
-      
+
       {/* Sheets */}
       <AddSpendSheet
         isOpen={showAddSheet}
         onClose={() => setShowAddSheet(false)}
         onAdd={handleAddRow}
       />
-      
+
       <WhyTheseSpends
         isOpen={showWhySheet}
         onClose={() => setShowWhySheet(false)}
