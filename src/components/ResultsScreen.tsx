@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { Sparkles, RotateCcw, HelpCircle } from 'lucide-react';
 import { SpendRow, UserInputs } from '@/lib/types';
 import { calculateTotals } from '@/lib/calculations';
-import { SummaryCard } from './SummaryCard';
+import { BenefitCard } from './BenefitCard';
 import { SpendTable } from './SpendTable';
 import { AddSpendSheet } from './AddSpendSheet';
 import { WhyTheseSpends } from './WhyTheseSpends';
@@ -76,14 +76,7 @@ export function ResultsScreen({ rows, inputs, onUpdateRows, onStartOver }: Resul
 
       {/* Content */}
       <div className="px-4 space-y-4">
-        <SummaryCard totals={totals} />
-
-        {/* Disclaimer */}
-        <p className="text-xs text-center text-muted-foreground px-4">
-          Illustrative estimates. Returns are market-linked and not guaranteed.
-          Actual yields/discounts may vary.
-        </p>
-
+        {/* 1. Spend Mix (editable) - First */}
         <SpendTable
           rows={rows}
           onUpdateRow={handleUpdateRow}
@@ -99,17 +92,23 @@ export function ResultsScreen({ rows, inputs, onUpdateRows, onStartOver }: Resul
           <HelpCircle className="w-4 h-4" />
           Why these spends?
         </button>
+
+        {/* 2. Benefit + How it works - After Spend Mix */}
+        <BenefitCard totals={totals} />
       </div>
 
       {/* Bottom CTA */}
       <div className="fixed bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-background via-background to-transparent pt-8 safe-area-bottom">
-        <div className="max-w-md mx-auto">
+        <div className="max-w-md mx-auto space-y-2">
           <motion.button
             whileTap={{ scale: 0.98 }}
             className="btn-primary w-full text-base"
           >
             Activate my Spending Account
           </motion.button>
+          <p className="text-xs text-center text-muted-foreground">
+            You can start small and adjust anytime.
+          </p>
         </div>
       </div>
 
