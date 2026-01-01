@@ -2,7 +2,7 @@ import { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { Sparkles, RotateCcw, HelpCircle } from 'lucide-react';
 import { SpendRow, UserInputs } from '@/lib/types';
-import { calculateTotals } from '@/lib/calculations';
+import { calculateTotals, formatCurrency } from '@/lib/calculations';
 import { BenefitCard } from './BenefitCard';
 import { SpendTable } from './SpendTable';
 import { AddSpendSheet } from './AddSpendSheet';
@@ -76,7 +76,19 @@ export function ResultsScreen({ rows, inputs, onUpdateRows, onStartOver }: Resul
 
       {/* Content */}
       <div className="px-4 space-y-4">
-        {/* 1. Spend Mix (editable) - First */}
+        {/* 1. Estimated Yearly Spends - Top */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="premium-card p-4"
+        >
+          <p className="text-sm text-muted-foreground mb-1">Estimated Yearly Spends</p>
+          <p className="text-2xl font-display font-bold text-foreground">
+            {formatCurrency(totals.totalAnnualSpend)}
+          </p>
+        </motion.div>
+
+        {/* 2. Spend Mix (editable) */}
         <SpendTable
           rows={rows}
           onUpdateRow={handleUpdateRow}
@@ -93,7 +105,7 @@ export function ResultsScreen({ rows, inputs, onUpdateRows, onStartOver }: Resul
           Why these spends?
         </button>
 
-        {/* 2. Benefit + How it works - After Spend Mix */}
+        {/* 3. What you could save with Multipl */}
         <BenefitCard totals={totals} />
       </div>
 
