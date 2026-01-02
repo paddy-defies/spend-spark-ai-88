@@ -1,9 +1,13 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Trash2, Plus, ChevronDown } from 'lucide-react';
 import { SpendRow } from '@/lib/types';
 import { BRAND_CATEGORIES, FREQUENCIES } from '@/lib/constants';
 import { cn } from '@/lib/utils';
+
+const formatIndianNumber = (num: number): string => {
+  return num.toLocaleString('en-IN');
+};
 
 interface SpendTableProps {
   rows: SpendRow[];
@@ -72,14 +76,39 @@ interface SpendRowItemProps {
 
 function SpendRowItem({ row, onUpdate, onDelete }: SpendRowItemProps) {
   const [showFreqDropdown, setShowFreqDropdown] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editValue, setEditValue] = useState('');
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const brandInfo = Object.values(BRAND_CATEGORIES)
     .flat()
     .find(b => b.id === row.brandId);
 
-  const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = parseInt(e.target.value.replace(/[^0-9]/g, '')) || 0;
-    onUpdate({ amount: value });
+  const handleStartEdit = () => {
+    setEditValue(row.amount.toString());
+    setIsEditing(true);
+    setTimeout(() => inputRef.current?.select(), 0);
+  };
+
+  const handleEditChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // Allow only numbers and decimals
+    const value = e.target.value.replace(/[^0-9.]/g, '');
+    setEditValue(value);
+  };
+
+  const handleEditComplete = () => {
+    const numValue = parseFloat(editValue) || 0;
+    const finalValue = Math.max(0, numValue);
+    onUpdate({ amount: finalValue });
+    setIsEditing(false);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      handleEditComplete();
+    } else if (e.key === 'Escape') {
+      setIsEditing(false);
+    }
   };
 
   const frequencyLabel = FREQUENCIES.find(f => f.value === row.frequency)?.label || row.frequency;
@@ -107,12 +136,28 @@ function SpendRowItem({ row, onUpdate, onDelete }: SpendRowItemProps) {
           <span className="font-medium text-foreground">{row.brandName}</span>
         </div>
 
-        <input
-          type="text"
-          value={`₹${row.amount.toLocaleString('en-IN')}`}
-          onChange={handleAmountChange}
-          className="w-24 bg-transparent text-right font-semibold text-foreground focus:outline-none focus:text-primary transition-colors"
-        />
+        {isEditing ? (
+          <div className="flex items-center">
+            <span className="text-foreground font-semibold">₹</span>
+            <input
+              ref={inputRef}
+              type="text"
+              inputMode="decimal"
+              value={editValue}
+              onChange={handleEditChange}
+              onBlur={handleEditComplete}
+              onKeyDown={handleKeyDown}
+              className="w-20 bg-secondary/50 text-right font-semibold text-foreground px-2 py-0.5 rounded-md focus:outline-none focus:ring-1 focus:ring-primary"
+            />
+          </div>
+        ) : (
+          <button
+            onClick={handleStartEdit}
+            className="font-semibold text-foreground hover:text-primary transition-colors text-right"
+          >
+            ₹{formatIndianNumber(Math.round(row.amount))}
+          </button>
+        )}
       </div>
 
       {/* Line 2: Frequency dropdown + Trash */}

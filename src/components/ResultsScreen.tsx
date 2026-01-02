@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { Sparkles, RotateCcw, HelpCircle } from 'lucide-react';
 import { SpendRow, UserInputs } from '@/lib/types';
@@ -7,6 +7,35 @@ import { BenefitCard } from './BenefitCard';
 import { SpendTable } from './SpendTable';
 import { AddSpendSheet } from './AddSpendSheet';
 import { WhyTheseSpends } from './WhyTheseSpends';
+
+const PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=xyz.multipl.multipl&hl=en_IN";
+const APP_STORE_URL = "https://apps.apple.com/in/app/multipl-invest-for-spends/id1518208782";
+
+const getStoreUrl = (): string => {
+  const ua = navigator.userAgent;
+  const platform = navigator.platform;
+  
+  // Check for iOS (iPhone, iPad, iPod)
+  const isIOS = /iPhone|iPad|iPod/i.test(ua);
+  // Check for iPadOS (reports as Mac with touch)
+  const isIPadOS = platform === 'MacIntel' && navigator.maxTouchPoints > 1;
+  // Check for Android
+  const isAndroid = /Android/i.test(ua);
+  // Check for Mac desktop (not iPadOS)
+  const isMacDesktop = /Mac/i.test(platform) && !isIPadOS;
+  
+  if (isIOS || isIPadOS) {
+    return APP_STORE_URL;
+  }
+  if (isAndroid) {
+    return PLAY_STORE_URL;
+  }
+  if (isMacDesktop) {
+    return APP_STORE_URL;
+  }
+  // Windows or unknown defaults to Play Store
+  return PLAY_STORE_URL;
+};
 
 interface ResultsScreenProps {
   rows: SpendRow[];
@@ -114,6 +143,9 @@ export function ResultsScreen({ rows, inputs, onUpdateRows, onStartOver }: Resul
         <div className="max-w-md mx-auto space-y-2">
           <motion.button
             whileTap={{ scale: 0.98 }}
+            onClick={() => {
+              window.location.href = getStoreUrl();
+            }}
             className="btn-primary w-full text-base"
           >
             Activate my Spending Account
