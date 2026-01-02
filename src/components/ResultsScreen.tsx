@@ -10,18 +10,23 @@ import { WhyTheseSpends } from './WhyTheseSpends';
 
 const PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=xyz.multipl.multipl&hl=en_IN";
 const APP_STORE_URL = "https://apps.apple.com/in/app/multipl-invest-for-spends/id1518208782";
+const APP_STORE_DEEP_LINK = "itms-apps://apps.apple.com/in/app/multipl-invest-for-spends/id1518208782";
+
+const isIOSDevice = (): boolean => {
+  const ua = navigator.userAgent;
+  const platform = navigator.platform;
+  const isIOS = /iPhone|iPad|iPod/i.test(ua);
+  const isIPadOS = platform === 'MacIntel' && navigator.maxTouchPoints > 1;
+  return isIOS || isIPadOS;
+};
 
 const getStoreUrl = (): string => {
   const ua = navigator.userAgent;
   const platform = navigator.platform;
   
-  // Check for iOS (iPhone, iPad, iPod)
   const isIOS = /iPhone|iPad|iPod/i.test(ua);
-  // Check for iPadOS (reports as Mac with touch)
   const isIPadOS = platform === 'MacIntel' && navigator.maxTouchPoints > 1;
-  // Check for Android
   const isAndroid = /Android/i.test(ua);
-  // Check for Mac desktop (not iPadOS)
   const isMacDesktop = /Mac/i.test(platform) && !isIPadOS;
   
   if (isIOS || isIPadOS) {
@@ -33,8 +38,57 @@ const getStoreUrl = (): string => {
   if (isMacDesktop) {
     return APP_STORE_URL;
   }
-  // Windows or unknown defaults to Play Store
   return PLAY_STORE_URL;
+};
+
+const openStoreUrl = (): void => {
+  const url = getStoreUrl();
+  const isInIframe = window.self !== window.top;
+  
+  // For iOS devices, try deep link first
+  if (isIOSDevice()) {
+    // Try deep link - this will silently fail if App Store app isn't available
+    const deepLinkTimeout = setTimeout(() => {
+      // Deep link didn't work, fallback to web URL
+      navigateToUrl(APP_STORE_URL, isInIframe);
+    }, 500);
+    
+    // Attempt deep link
+    window.location.href = APP_STORE_DEEP_LINK;
+    
+    // If page visibility changes, deep link worked - clear timeout
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        clearTimeout(deepLinkTimeout);
+        document.removeEventListener('visibilitychange', handleVisibilityChange);
+      }
+    };
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    
+    return;
+  }
+  
+  navigateToUrl(url, isInIframe);
+};
+
+const navigateToUrl = (url: string, isInIframe: boolean): void => {
+  // If in iframe, navigate top-level
+  if (isInIframe) {
+    try {
+      window.top!.location.href = url;
+      return;
+    } catch {
+      // Cross-origin iframe, fallback to other methods
+    }
+  }
+  
+  // Try to open in new tab
+  const newWindow = window.open(url, "_blank", "noopener,noreferrer");
+  
+  // If popup was blocked or returned null, fallback to direct navigation
+  if (!newWindow || newWindow.closed) {
+    window.location.href = url;
+  }
 };
 
 interface ResultsScreenProps {
@@ -143,9 +197,7 @@ export function ResultsScreen({ rows, inputs, onUpdateRows, onStartOver }: Resul
         <div className="max-w-md mx-auto space-y-2">
           <motion.button
             whileTap={{ scale: 0.98 }}
-            onClick={() => {
-              window.location.href = getStoreUrl();
-            }}
+            onClick={openStoreUrl}
             className="btn-primary w-full text-base"
           >
             Activate my Spending Account
