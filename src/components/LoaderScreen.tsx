@@ -53,9 +53,9 @@ export function LoaderScreen({ onComplete }: LoaderScreenProps) {
           <motion.div
             animate={{ scale: [1, 1.05, 1] }}
             transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-            className="w-20 h-20 rounded-2xl bg-primary flex items-center justify-center"
+            className="w-20 h-20"
           >
-            <span className="text-primary-foreground font-bold text-3xl">M</span>
+            <img src="/multipl-logo.png" alt="Multipl" className="w-full h-full" />
           </motion.div>
         </div>
 
