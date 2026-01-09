@@ -70,10 +70,14 @@ export function BrandSelector({ selectedBrands, onToggleBrand }: BrandSelectorPr
                           className={cn('brand-tile', isSelected && 'active')}
                         >
                           <div
-                            className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold"
+                            className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold overflow-hidden"
                             style={{ backgroundColor: brand.color + '20', color: brand.color }}
                           >
-                            {brand.initial}
+                            {brand.logo ? (
+                              <img src={brand.logo} alt={brand.name} className="w-full h-full object-contain p-1" />
+                            ) : (
+                              brand.initial
+                            )}
                           </div>
                           <span className="text-xs text-center leading-tight line-clamp-2">
                             {brand.name}

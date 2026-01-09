@@ -31,24 +31,24 @@ export const SPENDING_STYLES = [
 
 export const BRAND_CATEGORIES = {
   'Q-Com / Food Delivery': [
-    { id: 'swiggy', name: 'Swiggy', initial: 'S', color: '#FC8019' },
-    { id: 'zomato', name: 'Zomato', initial: 'Z', color: '#E23744' },
-    { id: 'zepto', name: 'Zepto', initial: 'Z', color: '#8B5CF6' },
-    { id: 'amazon-fresh', name: 'Amazon Fresh', initial: 'A', color: '#FF9900' },
+    { id: 'swiggy', name: 'Swiggy', initial: 'S', color: '#FC8019', logo: '/brands/swiggy.png' },
+    { id: 'zomato', name: 'Zomato', initial: 'Z', color: '#E23744', logo: '/brands/zomato.png' },
+    { id: 'zepto', name: 'Zepto', initial: 'Z', color: '#8B5CF6', logo: '/brands/zepto.png' },
+    { id: 'amazon-fresh', name: 'Amazon Fresh', initial: 'A', color: '#FF9900', logo: '/brands/amazon-fresh.png' },
   ],
   'Shopping': [
-    { id: 'amazon', name: 'Amazon', initial: 'A', color: '#FF9900' },
-    { id: 'flipkart', name: 'Flipkart', initial: 'F', color: '#2874F0' },
-    { id: 'tata-cliq', name: 'Tata Cliq', initial: 'T', color: '#FF6161' },
-    { id: 'nykaa', name: 'Nykaa', initial: 'N', color: '#FC2779' },
-    { id: 'ajio', name: 'Ajio', initial: 'A', color: '#3C3C3C' },
+    { id: 'amazon', name: 'Amazon', initial: 'A', color: '#FF9900', logo: '/brands/amazon.png' },
+    { id: 'flipkart', name: 'Flipkart', initial: 'F', color: '#2874F0', logo: '/brands/flipkart.png' },
+    { id: 'tata-cliq', name: 'Tata Cliq', initial: 'T', color: '#FF6161', logo: '/brands/tata-cliq.png' },
+    { id: 'nykaa', name: 'Nykaa', initial: 'N', color: '#FC2779', logo: '/brands/nykaa.png' },
+    { id: 'ajio', name: 'Ajio', initial: 'A', color: '#3C3C3C', logo: '/brands/ajio.png' },
     { id: 'myntra', name: 'Myntra', initial: 'M', color: '#FF3F6C' },
-    { id: 'decathlon', name: 'Decathlon', initial: 'D', color: '#0082C3' },
+    { id: 'decathlon', name: 'Decathlon', initial: 'D', color: '#0082C3', logo: '/brands/decathlon.png' },
   ],
   'Travel': [
-    { id: 'mmt-flights', name: 'MMT Flights', initial: 'M', color: '#E74C3C' },
-    { id: 'mmt-hotels', name: 'MMT Hotels', initial: 'M', color: '#2980B9' },
-    { id: 'uber', name: 'Uber', initial: 'U', color: '#000000' },
+    { id: 'mmt-flights', name: 'MMT Flights', initial: 'M', color: '#E74C3C', logo: '/brands/mmt.png' },
+    { id: 'mmt-hotels', name: 'MMT Hotels', initial: 'M', color: '#2980B9', logo: '/brands/mmt.png' },
+    { id: 'uber', name: 'Uber', initial: 'U', color: '#000000', logo: '/brands/uber.png' },
   ],
   'Non-Brand Spends': [
     { id: 'rent', name: 'Rent Payment', initial: 'R', color: '#6B7280' },

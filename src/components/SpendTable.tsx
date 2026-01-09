@@ -125,13 +125,17 @@ function SpendRowItem({ row, onUpdate, onDelete }: SpendRowItemProps) {
       <div className="flex items-center justify-between mb-2">
         <div className="flex items-center gap-2.5">
           <div
-            className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold shrink-0"
+            className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold shrink-0 overflow-hidden"
             style={{
               backgroundColor: (brandInfo?.color || '#6B7280') + '20',
               color: brandInfo?.color || '#6B7280'
             }}
           >
-            {brandInfo?.initial || row.brandName[0]}
+            {brandInfo?.logo ? (
+              <img src={brandInfo.logo} alt={row.brandName} className="w-full h-full object-contain p-1" />
+            ) : (
+              brandInfo?.initial || row.brandName[0]
+            )}
           </div>
           <span className="font-medium text-foreground">{row.brandName}</span>
         </div>
