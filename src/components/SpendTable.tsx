@@ -131,8 +131,8 @@ function SpendRowItem({ row, onUpdate, onDelete }: SpendRowItemProps) {
               color: brandInfo?.color || '#6B7280'
             }}
           >
-            {brandInfo?.logo ? (
-              <img src={brandInfo.logo} alt={row.brandName} className="w-full h-full object-contain p-1" />
+            {brandInfo && 'logo' in brandInfo && brandInfo.logo ? (
+              <img src={brandInfo.logo as string} alt={row.brandName} className="w-full h-full object-contain p-1" />
             ) : (
               brandInfo?.initial || row.brandName[0]
             )}
