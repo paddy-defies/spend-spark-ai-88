@@ -10,7 +10,7 @@ interface BrandSelectorProps {
 }
 
 export function BrandSelector({ selectedBrands, onToggleBrand }: BrandSelectorProps) {
-  const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
+  const [expandedCategory, setExpandedCategory] = useState<string | null>('Q-Com / Food Delivery');
   
   const categories = Object.entries(BRAND_CATEGORIES).filter(
     ([cat]) => cat !== 'Non-Brand Spends'
