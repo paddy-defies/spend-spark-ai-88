@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, ArrowLeft, Sparkles } from 'lucide-react';
+import { ArrowRight, ArrowLeft, Sparkles, CreditCard, Smartphone } from 'lucide-react';
 import { ProgressIndicator } from './ProgressIndicator';
 import { SelectOption } from './SelectOption';
 import { BrandSelector } from './BrandSelector';
@@ -173,15 +173,67 @@ export function InputScreen({ onComplete, initialInputs }: InputScreenProps) {
                 How do you usually pay?
               </h2>
               <div className="space-y-3">
-                {SPENDING_STYLES.map(opt => (
-                  <SelectOption
-                    key={opt.value}
-                    value={opt.value}
-                    label={opt.label}
-                    isSelected={spendingStyle === opt.value}
-                    onClick={() => setSpendingStyle(opt.value)}
-                  />
-                ))}
+                {/* Mixed: UPI for small, Card for big */}
+                <button
+                  onClick={() => setSpendingStyle('mixed')}
+                  className={cn(
+                    'w-full flex items-center gap-4 p-4 rounded-xl border-2 transition-all duration-200',
+                    spendingStyle === 'mixed'
+                      ? 'border-primary bg-primary/10'
+                      : 'border-border bg-card hover:border-primary/30'
+                  )}
+                >
+                  <div className="flex items-center gap-1">
+                    <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center">
+                      <Smartphone className="w-5 h-5 text-foreground" />
+                    </div>
+                    <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center -ml-3">
+                      <CreditCard className="w-5 h-5 text-foreground" />
+                    </div>
+                  </div>
+                  <div className="text-left">
+                    <p className="font-medium text-foreground">UPI for small, Card for big</p>
+                    <p className="text-sm text-muted-foreground">Mixed payment style</p>
+                  </div>
+                </button>
+
+                {/* Card: All in on Credit Card */}
+                <button
+                  onClick={() => setSpendingStyle('card')}
+                  className={cn(
+                    'w-full flex items-center gap-4 p-4 rounded-xl border-2 transition-all duration-200',
+                    spendingStyle === 'card'
+                      ? 'border-primary bg-primary/10'
+                      : 'border-border bg-card hover:border-primary/30'
+                  )}
+                >
+                  <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center">
+                    <CreditCard className="w-5 h-5 text-foreground" />
+                  </div>
+                  <div className="text-left">
+                    <p className="font-medium text-foreground">All in on Credit Card</p>
+                    <p className="text-sm text-muted-foreground">Card for everything</p>
+                  </div>
+                </button>
+
+                {/* UPI: All in on UPI */}
+                <button
+                  onClick={() => setSpendingStyle('upi')}
+                  className={cn(
+                    'w-full flex items-center gap-4 p-4 rounded-xl border-2 transition-all duration-200',
+                    spendingStyle === 'upi'
+                      ? 'border-primary bg-primary/10'
+                      : 'border-border bg-card hover:border-primary/30'
+                  )}
+                >
+                  <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center">
+                    <Smartphone className="w-5 h-5 text-foreground" />
+                  </div>
+                  <div className="text-left">
+                    <p className="font-medium text-foreground">All in on UPI</p>
+                    <p className="text-sm text-muted-foreground">UPI for everything</p>
+                  </div>
+                </button>
               </div>
             </StepContainer>
           )}
