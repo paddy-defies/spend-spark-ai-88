@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { Sparkles, RotateCcw, HelpCircle } from 'lucide-react';
 import { SpendRow, UserInputs } from '@/lib/types';
@@ -7,6 +7,7 @@ import { BenefitCard } from './BenefitCard';
 import { SpendTable } from './SpendTable';
 import { AddSpendSheet } from './AddSpendSheet';
 import { WhyTheseSpends } from './WhyTheseSpends';
+import { MultiplLogo } from './MultiplLogo';
 
 const PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=xyz.multipl.multipl&hl=en_IN";
 const APP_STORE_URL = "https://apps.apple.com/in/app/multipl-invest-for-spends/id1518208782";
@@ -128,12 +129,7 @@ export function ResultsScreen({ rows, inputs, onUpdateRows, onStartOver }: Resul
     <div className="min-h-screen bg-background pb-36">
       {/* App Bar */}
       <div className="p-4 pt-6 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
-            <span className="text-primary-foreground font-bold text-sm">M</span>
-          </div>
-          <span className="font-display font-semibold text-foreground">multipl</span>
-        </div>
+        <MultiplLogo />
 
         <button
           onClick={onStartOver}

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Space+Grotesk:wght@300..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,57 +6,57 @@
 
 @layer base {
   :root {
-    /* Multipl Light/Cream Theme */
-    --background: 40 33% 96%;
-    --foreground: 220 20% 15%;
+    /* Multipl Brand Theme */
+    --background: 75 18% 97%; /* #f7f8f5 off-white */
+    --foreground: 72 17% 10%; /* #1d1f13 dark */
 
-    --card: 40 30% 99%;
-    --card-foreground: 220 20% 15%;
+    --card: 0 0% 100%; /* pure white */
+    --card-foreground: 72 17% 10%;
 
-    --popover: 40 30% 99%;
-    --popover-foreground: 220 20% 15%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 72 17% 10%;
 
-    --primary: 45 93% 52%;
-    --primary-foreground: 220 20% 15%;
+    --primary: 51 100% 50%; /* #ffd900 Multipl yellow */
+    --primary-foreground: 72 17% 10%;
 
-    --secondary: 40 20% 92%;
-    --secondary-foreground: 220 20% 25%;
+    --secondary: 78 40% 94%; /* light greenish tint */
+    --secondary-foreground: 72 17% 20%;
 
-    --muted: 40 15% 88%;
-    --muted-foreground: 220 10% 50%;
+    --muted: 75 15% 90%;
+    --muted-foreground: 72 10% 45%;
 
-    --accent: 160 70% 40%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 84 82% 59%; /* #a9ed42 Multipl lime green */
+    --accent-foreground: 72 17% 10%;
 
     --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 40 15% 85%;
-    --input: 40 20% 95%;
-    --ring: 45 93% 52%;
+    --border: 75 15% 88%;
+    --input: 75 20% 96%;
+    --ring: 51 100% 50%;
 
     --radius: 1rem;
 
-    /* Custom tokens */
-    --gradient-primary: linear-gradient(135deg, hsl(45 93% 52%), hsl(40 95% 48%));
-    --gradient-accent: linear-gradient(135deg, hsl(160 70% 40%), hsl(170 70% 35%));
-    --gradient-card: linear-gradient(180deg, hsl(40 30% 99%), hsl(40 25% 97%));
-    
-    --shadow-card: 0 4px 20px hsla(220, 20%, 15%, 0.06), 0 1px 3px hsla(220, 20%, 15%, 0.04);
-    --shadow-card-hover: 0 8px 30px hsla(220, 20%, 15%, 0.1), 0 2px 6px hsla(220, 20%, 15%, 0.05);
-    --shadow-button: 0 4px 14px hsla(45, 93%, 52%, 0.35);
+    /* Custom tokens - Multipl brand */
+    --gradient-primary: linear-gradient(135deg, #ffd900, #f5d000);
+    --gradient-accent: linear-gradient(135deg, #a9ed42, #9de038);
+    --gradient-card: linear-gradient(180deg, #ffffff, #fafbf8);
 
-    --font-display: 'Space Grotesk', sans-serif;
-    --font-body: 'DM Sans', sans-serif;
+    --shadow-card: 0 4px 20px rgba(29, 31, 19, 0.06), 0 1px 3px rgba(29, 31, 19, 0.04);
+    --shadow-card-hover: 0 8px 30px rgba(29, 31, 19, 0.1), 0 2px 6px rgba(29, 31, 19, 0.05);
+    --shadow-button: 0 4px 14px rgba(255, 217, 0, 0.4);
 
-    --sidebar-background: 40 30% 98%;
-    --sidebar-foreground: 220 20% 15%;
-    --sidebar-primary: 45 93% 52%;
-    --sidebar-primary-foreground: 220 20% 15%;
-    --sidebar-accent: 40 20% 94%;
-    --sidebar-accent-foreground: 220 20% 25%;
-    --sidebar-border: 40 15% 88%;
-    --sidebar-ring: 45 93% 52%;
+    --font-display: 'Inter', system-ui, sans-serif;
+    --font-body: 'Inter', system-ui, sans-serif;
+
+    --sidebar-background: 75 20% 98%;
+    --sidebar-foreground: 72 17% 10%;
+    --sidebar-primary: 51 100% 50%;
+    --sidebar-primary-foreground: 72 17% 10%;
+    --sidebar-accent: 78 30% 94%;
+    --sidebar-accent-foreground: 72 17% 20%;
+    --sidebar-border: 75 15% 88%;
+    --sidebar-ring: 51 100% 50%;
   }
 }
 
@@ -73,10 +73,10 @@
   body {
     @apply bg-background text-foreground antialiased;
     font-family: var(--font-body);
-    /* Subtle radial pattern */
-    background-image: 
-      radial-gradient(ellipse 80% 50% at 50% -20%, hsla(45, 80%, 85%, 0.3), transparent),
-      radial-gradient(ellipse 60% 40% at 100% 100%, hsla(45, 70%, 90%, 0.2), transparent);
+    /* Subtle Multipl-style gradient */
+    background-image:
+      radial-gradient(ellipse 80% 50% at 50% -20%, rgba(169, 237, 66, 0.15), transparent),
+      radial-gradient(ellipse 60% 40% at 100% 100%, rgba(255, 217, 0, 0.1), transparent);
     background-attachment: fixed;
   }
 
@@ -203,7 +203,7 @@
 
   .metric-value-accent {
     @apply text-2xl font-display font-bold;
-    color: hsl(160 70% 35%);
+    color: #7bc62d; /* Darker lime green for better readability */
   }
 
   .breakdown-row {

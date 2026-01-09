@@ -14,8 +14,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        display: ['Space Grotesk', 'sans-serif'],
-        body: ['DM Sans', 'sans-serif'],
+        display: ['Inter', 'system-ui', 'sans-serif'],
+        body: ['Inter', 'system-ui', 'sans-serif'],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -50,6 +50,16 @@ export default {
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
+        },
+        // Multipl brand colors
+        multipl: {
+          yellow: "#ffd900",
+          lime: "#a9ed42",
+          "lime-light": "#aeee3a",
+          "green-light": "#f0ffd1",
+          dark: "#1d1f13",
+          "dark-alt": "#232220",
+          cyan: "#00f0ff",
         },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",

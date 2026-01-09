@@ -4,6 +4,7 @@ import { ArrowRight, ArrowLeft, Sparkles } from 'lucide-react';
 import { ProgressIndicator } from './ProgressIndicator';
 import { SelectOption } from './SelectOption';
 import { BrandSelector } from './BrandSelector';
+import { MultiplLogo } from './MultiplLogo';
 import {
   AGE_RANGES,
   GENDERS,
@@ -74,12 +75,7 @@ export function InputScreen({ onComplete, initialInputs }: InputScreenProps) {
     <div className="min-h-screen bg-background flex flex-col">
       {/* Header */}
       <div className="p-4 pt-6">
-        <div className="flex items-center gap-2 mb-2">
-          <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
-            <span className="text-primary-foreground font-bold text-sm">M</span>
-          </div>
-          <span className="font-display font-semibold text-foreground">multipl</span>
-        </div>
+        <MultiplLogo className="mb-2" />
         <div className="flex items-center gap-2 mt-4 mb-1">
           <Sparkles className="w-4 h-4 text-muted-foreground" />
           <span className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
